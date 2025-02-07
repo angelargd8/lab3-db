@@ -266,6 +266,19 @@ lista_nodos = [
         "budget": 103000000,
         "languages": ["Inglés", "Latín"],
     },
+    ,
+    {
+        "label": "Genre",
+        "name": "Action"
+    },
+    {
+        "label": "Genre",
+        "name": "Adventure"
+    },
+    {
+        "label": "Genre",
+        "name": "Drama"
+    },
 ]
 # nodos(lista_nodos)
 
