@@ -101,17 +101,17 @@ def buscar_datos(usuario, pelicula):
 
 
 usuarios = [
-    {"label": "User", "name": "Juan Perez", "userId": "U1", "born": "1985-05-10"},
-    {"label": "User", "name": "Maria Lopez", "userId": "U2", "born": "1990-02-20"},
-    {"label": "User", "name": "Carlos Gomez", "userId": "U3", "born": "1993-08-12"},
-    {"label": "User", "name": "Ana Martinez", "userId": "U4", "born": "1988-11-30"},
-    {"label": "User", "name": "Luis Rodriguez", "userId": "U5", "born": "1995-07-07"},
+    {"label": "User", "name": "Juan Perez", "userId": "U1"},
+    {"label": "User", "name": "Maria Lopez", "userId": "U2"},
+    {"label": "User", "name": "Carlos Gomez", "userId": "U3"},
+    {"label": "User", "name": "Ana Martinez", "userId": "U4"},
+    {"label": "User", "name": "Luis Rodriguez", "userId": "U5"},
 ]
 
 peliculas = [
-    {"label": "Movie", "title": "Inception", "movieId": "M1", "year": 2010},
-    {"label": "Movie", "title": "The Lion King", "movieId": "M2", "year": 1994},
-    {"label": "Movie", "title": "Gladiator", "movieId": "M3", "year": 2000},
+    {"label": "Movie", "title": "Inception", "movieId": 1},
+    {"label": "Movie", "title": "The Lion King", "movieId": 2},
+    {"label": "Movie", "title": "Gladiator", "movieId": 3},
 ]
 
 nodos(usuarios)
