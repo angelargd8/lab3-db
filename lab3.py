@@ -2,8 +2,8 @@ from neo4j import GraphDatabase, Neo4jDriver
 from datetime import datetime
 
 # URI examples: "neo4j://localhost", "neo4j+s://xxx.databases.neo4j.io"
-URI = "neo4j+s://801ec156.databases.neo4j.io"
-AUTH = ("neo4j", "VY88ReoU_3qwDWfzyfZd0YCFETiN-8C_-4zTfPSiMoI")
+URI = "neo4j+s://0d46ea52.databases.neo4j.io"
+AUTH = ("neo4j", "S4U8BeDAcdp3oMgEah4_ngtMm3419CbFOpCG6guUItc")
 
 with GraphDatabase.driver(URI, auth=AUTH) as driver:
     driver.verify_connectivity()
@@ -20,7 +20,7 @@ def nodos(lista_nodos):
 
             # Crear el nodo con sus propiedades
             query_create = f"""
-            MERGE (n:{label} $props)
+            CREATE (n:{label} $props)
             RETURN n
             """
             session.run(query_create, props=propiedades)
@@ -62,7 +62,7 @@ def crear_relacion(
         RETURN r
         """
     with driver.session() as session:
-        session.run(
+        r = session.run(
             query,
             node1_value=node1_value,
             node2_value=node2_value,
@@ -167,7 +167,7 @@ lista_nodos = [
         "userId": 1,
     },
     {
-        "label": "Person Director Actor",
+        "label": "PersonDirectorActor",
         "name": "Steven Spielberg",
         "tmdbld": 55555,
         "born": "1946-12-18",
@@ -184,7 +184,7 @@ lista_nodos = [
         "tmdbld": "499",
         "released": "2010-07-16",
         "imdbRating": 8.8,
-        "movield": 148,
+        "movieId": 148,
         "year": 2010,
         "imdbld": 1392190,
         "runtime": 148,
@@ -205,24 +205,24 @@ lista_nodos = [
 
 ]
 
-# nodos(lista_nodos)
+nodos(lista_nodos)
 
-# crear_relacion("Actor", "name", "Leonardo DiCaprio", "Movie", "movieId", 148, "ACTED_IN", role="Jose Rodriguez")
-# crear_relacion("Director", "name", "Christopher Nolan", "Movie", "movieId", 148, "DIRECTED", role="Director")
-# crear_relacion("Director", "name", "Steven Spielberg", "Movie", "movieId", 148, "DIRECTED", role="Director")
-# crear_relacion("Actor", "name", "Steven Spielberg", "Movie", "movieId", 148, "ACTED_IN", role="Público")
+crear_relacion("Actor", "name", "Leonardo DiCaprio", "Movie", "movieId", 148, "ACTED_IN", role="Jose Rodriguez")
+crear_relacion("Director", "name", "Christopher Nolan", "Movie", "movieId", 148, "DIRECTED", role="Director")
+crear_relacion("PersonDirectorActor", "name", "Steven Spielberg", "Movie", "movieId", 148, "DIRECTED", role="Director")
+crear_relacion("PersonDirectorActor", "name", "Steven Spielberg", "Movie", "movieId", 148, "ACTED_IN", role="Director")
 crear_relacion("User", "userId", 1, "Movie", "movieId", 148, "RATED", rating=4.5, timestamp=14141414)
-# crear_relacion("Movie", "movieId", 148, "Genre", "name", "Action", "IN_GENRE")
+crear_relacion("Movie", "movieId", 148, "Genre", "name", "Action", "IN_GENRE")
 
-for user, movie, rating, timestamp in calificaciones:
-    crear_relacion(
-        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
-    )
+# for user, movie, rating, timestamp in calificaciones:
+#     crear_relacion(
+#         "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+#     )
 
-for relacion in relacion_generos: 
-    crear_relacion(
-        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
-    )
+# for relacion in relacion_generos: 
+#     crear_relacion(
+#         "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
+#     )
 
 
 driver.close()
