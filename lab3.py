@@ -12,25 +12,20 @@ with GraphDatabase.driver(URI, auth=AUTH) as driver:
 def nodos(lista_nodos):
     with driver.session() as session:
         for nodo in lista_nodos:
-            # Obtener el label y las propiedades
+             # Obtener el label y las propiedades
             keys = list(nodo.keys())  # Obtener todas las claves
-            label = keys[0]  # La primera clave es el label
+            label = nodo['label'] # La primera clave es el label
             propiedades = {k: nodo[k] for k in keys[1:]}  # Omitir la primera clave
             
-            # Contar nodos con el mismo label
-            query_count = f"MATCH (p:{label}) RETURN count(p) AS total"
-            result = session.run(query_count)
-            nodo_id = 0
-            for record in result:
-                nodo_id = record['total']
             
             # Crear el nodo con sus propiedades
             query_create = f"""
-            MERGE (n:{label} $props)
+            CREATE (n:{label} $props)
             RETURN n
             """
             session.run(query_create, props=propiedades)
-            print(f"Creado nodo {label} con ID {nodo_id}")
+            print(f"Creado nodo {label}")
+
 # Crear driver de forma manual
 driver = GraphDatabase.driver(URI, auth=AUTH)
 driver.verify_connectivity()
