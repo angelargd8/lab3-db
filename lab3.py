@@ -114,6 +114,12 @@ peliculas = [
     {"label": "Movie", "title": "Gladiator", "movieId": 3},
 ]
 
+
+relacion_generos = [
+    {"movie_title": "Inception", "name": "Action"},
+    {"movie_title": "The Lion King", "name": "Adventure"},
+    {"movie_title": "Gladiator", "name": "Drama"}
+]
 # nodos(usuarios)
 # nodos(peliculas)
 
@@ -130,10 +136,20 @@ calificaciones = [
     ("U5", 1, 4.6, 1707171717),
 ]
 
-# for user, movie, rating, timestamp in calificaciones:
-#     crear_relacion(
-#         "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
-#     )
+for user, movie, rating, timestamp in calificaciones:
+    crear_relacion(
+        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+    )
+
+for relacion in relacion_generos: 
+    crear_relacion(
+        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
+    )
+
+for relacion in relacion_generos: 
+    crear_relacion(
+        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
+    )
 
 
 lista_nodos = [
@@ -198,67 +214,44 @@ lista_nodos = [
         "languages": ["Inglés"],
     },
     {
-        "label": "Genre",
-        "name": "Action",
-    },   
-]
-
-lista_nodos2 = [
+        "label": "Movie",
+        "title": "The Lion King",
+        "tmdbld": "13",
+        "released": "1994-06-24",
+        "imdbRating": 8.5,
+        "movield": 88,
+        "year": 1994,
+        "imdbld": 115975,
+        "runtime": 88,
+        "countries": ["Estados Unidos"],
+        "imdbVotes": 1030000,
+        "url": "https://www.themoviedb.org/movie/13",
+        "revenue": 968483777,
+        "plot": "El joven león Simba debe superar la pérdida de su padre, el rey Mufasa, y aprender a convertirse en un verdadero líder.",
+        "poster": "https://link-al-poster.com/lionking.jpg",
+        "budget": 45000000,
+        "languages": ["Inglés"],
+    },
     {
-        "label": "Genre",
-        "name": "Thriller",
-    },   
+        "label": "Movie",
+        "title": "Gladiator",
+        "tmdbld": "17",
+        "released": "2000-05-05",
+        "imdbRating": 8.5,
+        "movield": 155,
+        "year": 2000,
+        "imdbld": 115976,
+        "runtime": 155,
+        "countries": ["Estados Unidos", "Reino Unido", "Italia"],
+        "imdbVotes": 870000,
+        "url": "https://www.themoviedb.org/movie/17",
+        "revenue": 457640000,
+        "plot": "Un general romano es traicionado y asesinado por el emperador y debe buscar venganza mientras se convierte en un gladiador.",
+        "poster": "https://link-al-poster.com/gladiator.jpg",
+        "budget": 103000000,
+        "languages": ["Inglés", "Latín"],
+    },
 ]
-
-nodos(lista_nodos2)
-
-# for nodo in lista_nodos:
-#     if "Person" in nodo["label"]:
-#         if "Director" in nodo["label"]:
-#             crear_relacion(
-#                 node1_label="Person",
-#                 node1_key="name",
-#                 node1_value=nodo["name"],
-#                 node2_label="Movie",
-#                 node2_key="movieId",
-#                 node2_value=nodo["movieId"],
-#                 relationship_type="DIRECTED",
-#                 role="Director",
-#             )
-#         if "Actor" in nodo["label"]:
-#             crear_relacion(
-#                 node1_label="Person",
-#                 node1_key="name",
-#                 node1_value=nodo["name"],
-#                 node2_label="Movie",
-#                 node2_key="movieId",
-#                 node2_value=nodo["movieId"],  # Cambiar según la lógica del grafo
-#                 relationship_type="ACTED_IN",
-#                 role="Actor",
-#             )
-#     elif nodo["label"] == "User":
-#         # Relacionar User con Movie
-#         crear_relacion(
-#             node1_label="User",
-#             node1_key="name",
-#             node1_value=nodo["name"],
-#             node2_label="Movie",
-#             node2_key="movieId",
-#             node2_value=nodo["movieId"],
-#             relationship_type="RATED",
-#             rating=5,  
-#             timestamp=int(datetime.now().timestamp()),
-#         )
-#     elif nodo["label"] == "Movie":
-#         # Relacionar Movie con Genre
-#         crear_relacion(
-#             node1_label="Movie",
-#             node1_key="movieId",
-#             node1_value=nodo["movieId"],
-#             node2_label="Genre",
-#             node2_key="name",
-#             node2_value=nodo["name"],
-#             relationship_type="IN_GENRE",
-#         )
+# nodos(lista_nodos)
 
 driver.close()
