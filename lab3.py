@@ -161,7 +161,7 @@ lista_nodos = [
         "poster": "https://link-al-poster.com/nolan.jpg",
     },
     {
-        "label": "Person Actor",
+        "label": "Actor",
         "name": "Leonardo DiCaprio",
         "tmdbld": 67890,
         "born": "1974-11-11",
@@ -209,44 +209,6 @@ lista_nodos = [
         "languages": ["Inglés"],
     },
     {
-        "label": "Movie",
-        "title": "The Lion King",
-        "tmdbld": "13",
-        "released": "1994-06-24",
-        "imdbRating": 8.5,
-        "movield": 88,
-        "year": 1994,
-        "imdbld": 115975,
-        "runtime": 88,
-        "countries": ["Estados Unidos"],
-        "imdbVotes": 1030000,
-        "url": "https://www.themoviedb.org/movie/13",
-        "revenue": 968483777,
-        "plot": "El joven león Simba debe superar la pérdida de su padre, el rey Mufasa, y aprender a convertirse en un verdadero líder.",
-        "poster": "https://link-al-poster.com/lionking.jpg",
-        "budget": 45000000,
-        "languages": ["Inglés"],
-    },
-    {
-        "label": "Movie",
-        "title": "Gladiator",
-        "tmdbld": "17",
-        "released": "2000-05-05",
-        "imdbRating": 8.5,
-        "movield": 155,
-        "year": 2000,
-        "imdbld": 115976,
-        "runtime": 155,
-        "countries": ["Estados Unidos", "Reino Unido", "Italia"],
-        "imdbVotes": 870000,
-        "url": "https://www.themoviedb.org/movie/17",
-        "revenue": 457640000,
-        "plot": "Un general romano es traicionado y asesinado por el emperador y debe buscar venganza mientras se convierte en un gladiador.",
-        "poster": "https://link-al-poster.com/gladiator.jpg",
-        "budget": 103000000,
-        "languages": ["Inglés", "Latín"],
-    },
-    {
         "label": "Genre",
         "name": "Action"
     }
@@ -254,6 +216,13 @@ lista_nodos = [
 
 ]
 
-nodos(lista_nodos)
+# nodos(lista_nodos)
+
+# crear_relacion("Actor", "name", "Leonardo DiCaprio", "Movie", "movieId", 148, "ACTED_IN", role="Jose Rodriguez")
+# crear_relacion("Director", "name", "Christopher Nolan", "Movie", "movieId", 148, "DIRECTED", role="Director")
+# crear_relacion("Director", "name", "Steven Spielberg", "Movie", "movieId", 148, "DIRECTED", role="Director")
+# crear_relacion("Actor", "name", "Steven Spielberg", "Movie", "movieId", 148, "ACTED_IN", role="Público")
+crear_relacion("User", "userId", 1, "Movie", "movieId", 148, "RATED", rating=4.5, timestamp=14141414)
+# crear_relacion("Movie", "movieId", 148, "Genre", "name", "Action", "IN_GENRE")
 
 driver.close()
