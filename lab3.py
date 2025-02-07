@@ -115,12 +115,12 @@ peliculas = [
     {"label": "Movie", "title": "Gladiator", "movieId": 3},
 ]
 
-generos = [
-    {"label": "Genre", "name": "Action", "genreId": 1},
-    {"label": "Genre", "name": "Adventure", "genreId": 2},
-    {"label": "Genre", "name": "Drama", "genreId": 3},
-]
 
+relacion_generos = [
+    {"movie_title": "Inception", "name": "Action"},
+    {"movie_title": "The Lion King", "name": "Adventure"},
+    {"movie_title": "Gladiator", "name": "Drama"}
+]
 # nodos(usuarios)
 # nodos(peliculas)
 
@@ -140,6 +140,11 @@ calificaciones = [
 for user, movie, rating, timestamp in calificaciones:
     crear_relacion(
         "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+    )
+
+for relacion in relacion_generos: 
+    crear_relacion(
+        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
     )
 
 
@@ -263,6 +268,5 @@ lista_nodos = [
     },
 ]
 # nodos(lista_nodos)
-
 
 driver.close()
