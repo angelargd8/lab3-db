@@ -1,8 +1,8 @@
 from neo4j import GraphDatabase, Neo4jDriver
 
 # URI examples: "neo4j://localhost", "neo4j+s://xxx.databases.neo4j.io"
-URI = "neo4j+s://32aace9c.databases.neo4j.io"
-AUTH = ("neo4j", "OZxVVyHZSDQK1pW1jaTXoqcQrg9PTqZ9mXG3oEi350Q")
+URI = "neo4j+s://0d46ea52.databases.neo4j.io"
+AUTH = ("neo4j", "S4U8BeDAcdp3oMgEah4_ngtMm3419CbFOpCG6guUItc")
 
 with GraphDatabase.driver(URI, auth=AUTH) as driver:
     driver.verify_connectivity()
@@ -76,18 +76,18 @@ def crear_relacion(
 def buscar_datos(usuario, pelicula):
     with driver.session() as session:
         # Buscar usuario
-        query_usuario = "MATCH (u:User {nombre: $nombre}) RETURN u"
+        query_usuario = "MATCH (u:User {name: $nombre}) RETURN u"
         resultado_usuario = session.run(query_usuario, nombre=usuario)
         usuario_encontrado = [record["u"] for record in resultado_usuario]
 
         # Buscar película
-        query_pelicula = "MATCH (m:Movie {titulo: $titulo}) RETURN m"
+        query_pelicula = "MATCH (m:Movie {title: $titulo}) RETURN m"
         resultado_pelicula = session.run(query_pelicula, titulo=pelicula)
         pelicula_encontrada = [record["m"] for record in resultado_pelicula]
 
         # Buscar relación RATE entre usuario y película
         query_relacion = """
-        MATCH (u:User {nombre: $nombre})-[r:RATE]->(m:Movie {titulo: $titulo}) 
+        MATCH (u:User {name: $nombre})-[r:RATED]->(m:Movie {title: $titulo}) 
         RETURN u, r, m
         """
         resultado_relacion = session.run(
@@ -96,10 +96,11 @@ def buscar_datos(usuario, pelicula):
         relacion_encontrada = [record for record in resultado_relacion]
 
         # Mostrar resultados
-        print(f"Usuario encontrado: {usuario_encontrado}")
-        print(f"Película encontrada: {pelicula_encontrada}")
-        print(f"Relación RATE encontrada: {relacion_encontrada}")
+        print(f"Usuario encontrado: {usuario_encontrado} \n")
+        print(f"Película encontrada: {pelicula_encontrada} \n")
+        print(f"Relación RATE encontrada: {relacion_encontrada[0]} \n")
 
+buscar_datos("Juan Perez", "Inception")
 
 usuarios = [
     {"label": "User", "name": "Juan Perez", "userId": "U1"},
@@ -131,10 +132,10 @@ calificaciones = [
     ("U5", 1, 4.6, 1707171717),
 ]
 
-for user, movie, rating, timestamp in calificaciones:
-    crear_relacion(
-        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
-    )
+# for user, movie, rating, timestamp in calificaciones:
+    # crear_relacion(
+    #     "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+    # )
 
 
 lista_nodos = [
