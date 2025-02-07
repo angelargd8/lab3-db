@@ -31,6 +31,61 @@ driver = GraphDatabase.driver(URI, auth=AUTH)
 driver.verify_connectivity()
 print("Successfully connected to Neo4j")
 
+
+
+"""
+    Crea una relación entre dos nodos.
+
+    :param node1_label: Etiqueta del nodo de origen (ej. "User").
+    :param node1_key: Clave única del nodo de origen (ej. "userId").
+    :param node1_value: Valor del nodo de origen (ej. "U123").
+    :param node2_label: Etiqueta del nodo de destino (ej. "Movie").
+    :param node2_key: Clave única del nodo de destino (ej. "movieId").
+    :param node2_value: Valor del nodo de destino (ej. 1).
+    :param relationship_type: Tipo de relación (ej. "RATED").
+    :param properties: Propiedades adicionales de la relación (ej. rating=5, timestamp=1707171717).
+"""
+def crear_relacion(node1_label, node1_key, node1_value, node2_label, node2_key, node2_value, relationship_type, **properties):
+        query = f"""
+        MATCH (a:{node1_label} {{{node1_key}: $node1_value}}), 
+              (b:{node2_label} {{{node2_key}: $node2_value}})
+        MERGE (a)-[r:{relationship_type}]->(b)
+        SET r += $properties
+        RETURN r
+        """
+        with driver.session() as session:
+            return session.run(query, node1_value=node1_value, node2_value=node2_value, properties=properties).single()
+    
+
+
+def buscar_datos(usuario, pelicula):
+    with driver.session() as session:
+        # Buscar usuario
+        query_usuario = "MATCH (u:User {nombre: $nombre}) RETURN u"
+        resultado_usuario = session.run(query_usuario, nombre=usuario)
+        usuario_encontrado = [record["u"] for record in resultado_usuario]
+
+        # Buscar película
+        query_pelicula = "MATCH (m:Movie {titulo: $titulo}) RETURN m"
+        resultado_pelicula = session.run(query_pelicula, titulo=pelicula)
+        pelicula_encontrada = [record["m"] for record in resultado_pelicula]
+
+        # Buscar relación RATE entre usuario y película
+        query_relacion = """
+        MATCH (u:User {nombre: $nombre})-[r:RATE]->(m:Movie {titulo: $titulo}) 
+        RETURN u, r, m
+        """
+        resultado_relacion = session.run(query_relacion, nombre=usuario, titulo=pelicula)
+        relacion_encontrada = [record for record in resultado_relacion]
+
+        # Mostrar resultados
+        print(f"Usuario encontrado: {usuario_encontrado}")
+        print(f"Película encontrada: {pelicula_encontrada}")
+        print(f"Relación RATE encontrada: {relacion_encontrada}")
+
+
+
+
 lista_nodos = [   
 {
     'label': 'Director',
@@ -152,29 +207,5 @@ lista_nodos = [
 ]
 nodos(lista_nodos)
 
-"""
-    Crea una relación entre dos nodos.
-
-    :param node1_label: Etiqueta del nodo de origen (ej. "User").
-    :param node1_key: Clave única del nodo de origen (ej. "userId").
-    :param node1_value: Valor del nodo de origen (ej. "U123").
-    :param node2_label: Etiqueta del nodo de destino (ej. "Movie").
-    :param node2_key: Clave única del nodo de destino (ej. "movieId").
-    :param node2_value: Valor del nodo de destino (ej. 1).
-    :param relationship_type: Tipo de relación (ej. "RATED").
-    :param properties: Propiedades adicionales de la relación (ej. rating=5, timestamp=1707171717).
-"""
-def crear_relacion(node1_label, node1_key, node1_value, node2_label, node2_key, node2_value, relationship_type, **properties):
-        query = f"""
-        MATCH (a:{node1_label} {{{node1_key}: $node1_value}}), 
-              (b:{node2_label} {{{node2_key}: $node2_value}})
-        MERGE (a)-[r:{relationship_type}]->(b)
-        SET r += $properties
-        RETURN r
-        """
-        with driver.session() as session:
-            return session.run(query, node1_value=node1_value, node2_value=node2_value, properties=properties).single()
-        
-crear_relacion("User", "userId", "d2", "Movie", "MovieId", 1, "Rated", rating=5, timestamp=1707171718)
 
 driver.close()
