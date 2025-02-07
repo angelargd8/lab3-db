@@ -136,25 +136,20 @@ calificaciones = [
     ("U5", 1, 4.6, 1707171717),
 ]
 
-for user, movie, rating, timestamp in calificaciones:
-    crear_relacion(
-        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
-    )
+# for user, movie, rating, timestamp in calificaciones:
+#     crear_relacion(
+#         "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+#     )
 
-for relacion in relacion_generos: 
-    crear_relacion(
-        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
-    )
-
-for relacion in relacion_generos: 
-    crear_relacion(
-        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
-    )
-
+# for relacion in relacion_generos: 
+#     crear_relacion(
+#         "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
+#     )
 
 lista_nodos = [
-    {
-        "label": "Person Director",
+
+ {
+        "label": "Director",
         "name": "Christopher Nolan",
         "tmdbld": 12345,
         "born": "1970-07-30",
@@ -251,20 +246,14 @@ lista_nodos = [
         "budget": 103000000,
         "languages": ["Inglés", "Latín"],
     },
-    ,
     {
         "label": "Genre",
         "name": "Action"
-    },
-    {
-        "label": "Genre",
-        "name": "Adventure"
-    },
-    {
-        "label": "Genre",
-        "name": "Drama"
-    },
+    }
+    
+
 ]
-# nodos(lista_nodos)
+
+nodos(lista_nodos)
 
 driver.close()
