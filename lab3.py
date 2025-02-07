@@ -1,8 +1,8 @@
 from neo4j import GraphDatabase, Neo4jDriver
 
 # URI examples: "neo4j://localhost", "neo4j+s://xxx.databases.neo4j.io"
-URI = "neo4j+s://801ec156.databases.neo4j.io"
-AUTH = ("neo4j", "VY88ReoU_3qwDWfzyfZd0YCFETiN-8C_-4zTfPSiMoI")
+URI = "neo4j+s://32aace9c.databases.neo4j.io"
+AUTH = ("neo4j", "OZxVVyHZSDQK1pW1jaTXoqcQrg9PTqZ9mXG3oEi350Q")
 
 with GraphDatabase.driver(URI, auth=AUTH) as driver:
     driver.verify_connectivity()
@@ -29,7 +29,6 @@ def nodos(lista_nodos):
 # Crear driver de forma manual
 driver = GraphDatabase.driver(URI, auth=AUTH)
 driver.verify_connectivity()
-print("Successfully connected to Neo4j")
 
 
 """
@@ -64,12 +63,14 @@ def crear_relacion(
         RETURN r
         """
     with driver.session() as session:
-        return session.run(
+        session.run(
             query,
             node1_value=node1_value,
             node2_value=node2_value,
             properties=properties,
         ).single()
+        print(f"Creada relación {relationship_type} entre {node1_value} y {node2_value}")
+
 
 
 def buscar_datos(usuario, pelicula):
@@ -114,25 +115,25 @@ peliculas = [
     {"label": "Movie", "title": "Gladiator", "movieId": 3},
 ]
 
-nodos(usuarios)
-nodos(peliculas)
+# nodos(usuarios)
+# nodos(peliculas)
 
 calificaciones = [
-    ("U1", "M1", 5.0),
-    ("U1", "M2", 4.5),
-    ("U2", "M1", 4.8),
-    ("U2", "M3", 4.2),
-    ("U3", "M2", 3.5),
-    ("U3", "M3", 4.0),
-    ("U4", "M1", 5.0),
-    ("U4", "M2", 3.8),
-    ("U5", "M3", 4.7),
-    ("U5", "M1", 4.6),
+    ("U1", 1, 5.0, 1707171717),
+    ("U1", 2, 4.5, 1707171717),
+    ("U2", 1, 4.8, 1707171717),
+    ("U2", 3, 4.2, 1707171717),
+    ("U3", 2, 3.5, 1707171717),
+    ("U3", 3, 4.0, 1707171717),
+    ("U4", 1, 5.0, 1707171717),
+    ("U4", 2, 3.8, 1707171717),
+    ("U5", 3, 4.7, 1707171717),
+    ("U5", 1, 4.6, 1707171717),
 ]
 
-for user, movie, rating in calificaciones:
+for user, movie, rating, timestamp in calificaciones:
     crear_relacion(
-        "User", "userId", user, "Movie", "movieId", movie, "RATE", rating=rating
+        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
     )
 
 
