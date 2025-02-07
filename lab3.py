@@ -2,8 +2,8 @@ from neo4j import GraphDatabase, Neo4jDriver
 from datetime import datetime
 
 # URI examples: "neo4j://localhost", "neo4j+s://xxx.databases.neo4j.io"
-URI = "neo4j+s://32aace9c.databases.neo4j.io"
-AUTH = ("neo4j", "OZxVVyHZSDQK1pW1jaTXoqcQrg9PTqZ9mXG3oEi350Q")
+URI = "neo4j+s://801ec156.databases.neo4j.io"
+AUTH = ("neo4j", "VY88ReoU_3qwDWfzyfZd0YCFETiN-8C_-4zTfPSiMoI")
 
 with GraphDatabase.driver(URI, auth=AUTH) as driver:
     driver.verify_connectivity()
@@ -117,8 +117,6 @@ peliculas = [
 
 relacion_generos = [
     {"movie_title": "Inception", "name": "Action"},
-    {"movie_title": "The Lion King", "name": "Adventure"},
-    {"movie_title": "Gladiator", "name": "Drama"}
 ]
 # nodos(usuarios)
 # nodos(peliculas)
@@ -136,15 +134,6 @@ calificaciones = [
     ("U5", 1, 4.6, 1707171717),
 ]
 
-# for user, movie, rating, timestamp in calificaciones:
-#     crear_relacion(
-#         "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
-#     )
-
-# for relacion in relacion_generos: 
-#     crear_relacion(
-#         "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
-#     )
 
 lista_nodos = [
 
@@ -224,5 +213,16 @@ lista_nodos = [
 # crear_relacion("Actor", "name", "Steven Spielberg", "Movie", "movieId", 148, "ACTED_IN", role="Público")
 crear_relacion("User", "userId", 1, "Movie", "movieId", 148, "RATED", rating=4.5, timestamp=14141414)
 # crear_relacion("Movie", "movieId", 148, "Genre", "name", "Action", "IN_GENRE")
+
+for user, movie, rating, timestamp in calificaciones:
+    crear_relacion(
+        "User", "userId", user, "Movie", "movieId", movie, "RATED", rating=rating, timestamp=timestamp
+    )
+
+for relacion in relacion_generos: 
+    crear_relacion(
+        "Movie", "title", relacion["movie_title"],"Genre", "name", relacion["name"],"IN_GENRE"
+    )
+
 
 driver.close()
